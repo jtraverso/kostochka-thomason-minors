@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Complete minors and average degree (Kostochka–Thomason)"
+  description: >-
+    A Lean 4 / Mathlib formalization of the Kostochka–Thomason theorem, following the short proof
+    of Alon, Krivelevich and Sudakov. complete_minor_of_edges (their Theorem 1): there is d0 such
+    that for every integer d ≥ d0, every nonempty finite simple graph with at least d·|V| edges has
+    the complete graph K_t as a minor for every natural number t ≤ d / (10 √(ln d)).
+    kostochka_thomason: there is a constant c > 0 such that for every integer d ≥ 2, every
+    nonempty finite simple graph with at least d·|V| edges (average degree at least 2d) has a K_t
+    minor for every t ≤ c·d / √(ln d). Minors are branch-set models, with the definition of the
+    registered entry Mader's theorem and Hadwiger's conjecture for t ≤ 4, whose library is a pinned
+    dependency. Two statements; the thresholds d0 and c are existential (the proof gives
+    d0 = ⌈exp(R0²)⌉ + 1 with R0 ≥ 1400).
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C83", "05C35", "05C80"]
+
+sources:
+  - title: "Complete minors and average degree – a short proof"
+    authors:
+      - "Noga Alon"
+      - "Michael Krivelevich"
+      - "Benny Sudakov"
+    id: "arXiv:2202.08530"
+    type: "paper"
+    location: "Journal of Graph Theory 103 (2023), 599–602; arXiv:2202.08530v2: Theorem 1, Lemma 2 and the proof of Theorem 1."
+    relationship: "formalizes"
+    note: >-
+      Theorem 1 is formalized with the constant 1/10. The proof follows the article: a
+      minor-minimal graph with at least d·|V| edges, the neighbourhood of a vertex of degree at
+      most 2d, a piece that stays connected after removing fewer than d/3 vertices, Lemma 2 (a
+      random sample of size about 3.1 √(ln n) that dominates almost everything and meets every
+      given small set) and the iteration building the branch sets. Differences in the details:
+      the sample has size ⌈3.2 √(ln d)⌉ (natural logarithm of d rather than of 2d); Lemma 2
+      guarantees every sample point at least ⌊s/12⌋ sample neighbours (rather than s/7), so a
+      sample has at most 12 components rather than 6; the probabilistic arguments are counts over
+      all sequences of s vertices (Markov's inequality, a union bound, and a Chernoff bound by the
+      exponential moment e^{-1}); and the threshold for d is explicit in terms of an existential
+      constant. Lemma 2 is not a separate compared statement. The formalization is by a different
+      author; the article's authors were not involved.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "A lower bound for the Hadwiger number of graphs by their average degree"
+    authors:
+      - "A. V. Kostochka"
+    type: "paper"
+    location: "Combinatorica 4 (1984), 307–316; announced in Metody Diskret. Analiz. 38 (1982), 37–58 (in Russian)."
+    relationship: "formalizes"
+    note: "The order of magnitude d/√(log d) of the extremal function for complete minors; the formal proof is that of Alon–Krivelevich–Sudakov."
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "An extremal function for contractions of graphs"
+    authors:
+      - "Andrew Thomason"
+    type: "paper"
+    location: "Mathematical Proceedings of the Cambridge Philosophical Society 95 (1984), 261–265."
+    relationship: "formalizes"
+    note: "Independent proof of the same order of magnitude; the formal proof is that of Alon–Krivelevich–Sudakov."
+    license: "unknown"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "PALOMAR-2026-10-16-000001 (jtraverso/hadwiger-mader @ cb10154)"
+    relationship: "builds-on"
+    note: >-
+      Pinned dependency. The definitions MinorModel and IsMinor are copied verbatim from its
+      library (CliqueMinorsLib/Minors.lean) into the Challenge; its edge contraction, the lifting of
+      minors along contractions and its connectivity lemmas for branch sets are used in the proof.
+
+status:
+  scope: >-
+    Both statements are proved for finite simple graphs. Not formalized: the tightness of the
+    order d/√(log d) (random graphs), the asymptotic value of the extremal function found by Thomason (2001), and Lemma 2 of
+    Alon–Krivelevich–Sudakov as a separate statement.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        Wrote the whole Lean development (KostochkaThomason/), the Challenge/Solution pair and the
+        packaging under the author's direction. Checked with a local build, a comparison of the
+        elaborated Challenge and Solution statements and definitions (pp.all), and #print axioms
+        (Lean v4.35.0-rc3, Mathlib c55e6e786f49471c72fbddbec5415808896aec1e).
+      cost:
+        wall_time: "a few hours"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish, directed by the author."
+  spend_usd: "not tracked"
+  notes: >-
+    The Lean development is AI-written under the author's direction and mechanically verified: no
+    sorry, axioms limited to propext, Classical.choice and Quot.sound, identical elaborated
+    statements and definitions in the Challenge and the Solution.
+
+fidelity:
+  divergences: >-
+    Graphs are Mathlib SimpleGraphs on a nonempty finite vertex type; the hypothesis |E|/|V| ≥ d is
+    stated as d·|V| ≤ |E| with d a natural number. A K_t minor is a branch-set model: t disjoint,
+    nonempty, connected vertex sets with an edge between every two of them. ln is Real.log and
+    √ is Real.sqrt; "sufficiently large d" is an existential threshold d0. In kostochka_thomason
+    the constant c is existential and the bound is stated for every d ≥ 2.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 (AI agent in Claude Code, acting for the author)"
+  notes: >-
+    Agent review by Claude Opus 5.5, distinct from the mechanical verification: the agent checked
+    the statements and the definitions against the source. No independent human review of the
+    formalization has been performed.
+
+alignment:
+  namespace: "KostochkaThomason"
+  statements:
+    - {source: "Alon–Krivelevich–Sudakov 2023, Theorem 1", lean: "KostochkaThomason.complete_minor_of_edges", module: "KostochkaThomasonChallenge", status: "proved"}
+    - {source: "Kostochka 1982/1984, Thomason 1984 (order d/√(log d))", lean: "KostochkaThomason.kostochka_thomason", module: "KostochkaThomasonChallenge", status: "proved"}
+
+acknowledgements: >-
+  Mathlib and the Lean community.

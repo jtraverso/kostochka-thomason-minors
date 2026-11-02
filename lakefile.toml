@@ -1,0 +1,30 @@
+name = "kostochka_thomason"
+version = "0.1.0"
+defaultTargets = ["KostochkaThomason", "KostochkaThomasonChallenge", "KostochkaThomasonSolution"]
+requiresModuleSystem = true
+
+[leanOptions]
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0-rc3"
+
+[[require]]
+name = "clique_minors"
+git = "https://github.com/jtraverso/hadwiger-mader"
+rev = "cb10154cd439a419d0bbf34052839dd27242b619"
+
+[[lean_lib]]
+name = "KostochkaThomason"
+globs = ["KostochkaThomason.+"]
+
+[[lean_lib]]
+name = "KostochkaThomasonChallenge"
+roots = ["KostochkaThomasonChallenge"]
+
+[[lean_lib]]
+name = "KostochkaThomasonSolution"
+roots = ["KostochkaThomasonSolution"]

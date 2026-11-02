@@ -1,0 +1,15 @@
+{
+  "challenge_module": "KostochkaThomasonChallenge",
+  "solution_module": "KostochkaThomasonSolution",
+  "theorem_names": [
+    "KostochkaThomason.complete_minor_of_edges",
+    "KostochkaThomason.kostochka_thomason"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
